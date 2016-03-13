@@ -1,0 +1,14 @@
+{% extends "kb/base.html" %}
+
+{% block content %}
+    {% for category in object_list %}   
+<h3><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></h3>
+
+<ul>
+    {% for a in category.articles.all  %}   
+    <li><a href="{{ a.get_absolute_url }}">{{ a.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endfor %}
+
+{% endblock %}

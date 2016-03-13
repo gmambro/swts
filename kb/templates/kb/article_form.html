@@ -1,0 +1,16 @@
+{% extends "kb/base.html" %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  {{ form.media }}
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+<table>
+<tr><th>Category</th><td>{{ category.name }}</td></tr>
+{{ form.as_table }}
+</table>
+<input type="submit" value="Submit" />
+</form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "cid/base.html" %}
+
+
+{% block content %}
+<div class="object-tools">
+<a class="changelink" href="{% url cid:edit_incident object.pk %}">Edit</a>
+</div>
+<table class="infotable">
+<tr>
+  <th>Reported</th>
+  <td>{{ object.creation_ts }} by {{ object.reporter }}</td>
+</tr>
+<tr>
+  <th>Incident start</th>
+  <td>{{ object.creation_ts }}</td>
+</tr>
+<tr>
+  <th>Incident Detection</th>
+  <td>{{ object.creation_ts }} via {{ object.detection_mode}}</td>
+</tr>
+<tr>
+  <th>Description</th>
+  <td>{{ object.description }}</td>
+</tr>
+</table>
+</div>
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% extends "kb/base.html" %}
+
+{% block content %}
+<table class="infotable">
+<tr><th>Name</th><td>{{ object.name }}</td></tr>
+<tr><th>Description</th><td>{{ object.description }}</td></tr>
+<tr><th>Articles</th>
+  <td>
+  <ul>
+    {% for a in object.articles.all  %}   
+    <li><a  href="{{ a.get_absolute_url }}">{{ a.title }}</li>
+    {% endfor %}
+  </ul>
+  </td>
+</tr>
+</table>
+
+<div class="toolbar">
+<ul class="object-tools">
+    <li><a class="addlink" href="{% url kb:add_article object.pk %}">Add
+	article</a></li>
+</ul>
+</div>
+
+{% endblock %}

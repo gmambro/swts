@@ -1,0 +1,83 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+<div class="object-tools">
+<a class="changelink" href="{% url tasks:edit_task object.pk %}">Edit</a>
+</div>
+<table class="infotable">
+<tr>
+  <th>Description</th>
+  <td>{{ object.description }}</td>
+</tr>
+<tr>
+  <th>Project</th>
+  <td><a href="{% url tasks:view_project object.project.pk %}">{{ object.project }}</a></td>
+</tr>
+<tr>
+  <th>Category</th>
+  <td>{{ object.taskcategory }}</td>
+</tr>
+<tr>
+  <th>Status</th>
+  <td>
+    <a href="{% url tasks:list_history object.pk %}">{{ object.get_status_display }}</a>
+    {% if last_histentry %}
+    (by {{ last_histentry.user }} on {{last_histentry.date }}.
+    {% endif %}
+</td>
+</tr>
+<tr>
+  <th>Owner</th>
+  <td>{{ object.owner }}</td>
+</tr>
+<tr>
+  <th>People</th>
+  <td>{% for u in object.workers.all %}{{ u }} {% endfor %}</td>
+</tr>
+<tr>
+<th>Logbooks</th>
+<td>
+{% if logbooks %}
+
+Logged activity on  
+{% for l in logbooks %}
+  {% if not forloop.first %}, {% endif %}
+  <a href="{% url tasks:view_logbook l.pk %}">{{ l.name }}<a>
+{% endfor %}
+logbooks
+{% endif %}
+</td>
+</tr>
+<tr>
+<th>Logged activity</th>
+<td>
+{% if last_logentry %}
+Last activity  <em>{{ last_logentry.short_description }}</em>
+on {{ last_logentry.date }} by {{ last_logentry.user }}.
+<a href="{% url tasks:list_logentry object.pk %}">Details...</a>
+{% else %}
+No logged activity on this task.
+{% endif %}
+<a class="addlink" href="{% url tasks:add_logentry object.pk %}">Add</a>
+</td>
+</tr>
+<th>Pointers</th>
+<td>
+<ul>
+{% for p in object.pointers.all %}
+<li>
+  <a href="{{ p.url }}">{{ p.url }}</a>
+  {% if p.description %}({{ p.description }}){% endif %}
+  <a class="changelink" href="{% url tasks:edit_pointer p.pk %}"></a>
+  <a class="dellink" href="{% url tasks:delete_pointer p.pk %}"></a>
+</li>
+{% endfor %}
+<li><a class="addlink" href="{% url tasks:add_pointer object.pk %}">Add</a></li>
+</ul>
+</td>
+</tr>
+</table>
+
+
+{% endblock %}
+

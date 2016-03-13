@@ -1,0 +1,32 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+<table>
+<tr>
+<th>Name:</th>
+<td>{{ object.name }}</td>
+</tr>
+<tr>
+<th>Description:</th>
+<td>{{ object.description }}</td>
+</tr>
+</table>
+
+<table class="listing">
+<thead>
+  <tr><th>Date</th><th>Task</th><th>User</th><th>Description</th></tr>
+</thead>
+<tbody>
+{% for e in object.log_entries.all %}
+  <tr>
+    <td>{{ e.date }}</td>
+    <td><a href="{% url tasks:view_task e.task.pk %}">{{ e.task }}</a></td>
+    <td>{{ e.user }}</td>
+    <td class="description">{{ e.description }}</td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}
+

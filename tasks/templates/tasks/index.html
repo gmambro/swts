@@ -1,0 +1,9 @@
+{% if task_list %}
+    <ul>
+    {% for task in task_list %}
+        <li>{{ task.name }}: {{ task.description }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No tasks defined.</p>
+{% endif %}

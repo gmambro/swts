@@ -1,0 +1,28 @@
+{% load mptt_tags %}
+<project>
+
+{% for node,structure in tasks|tree_info %}
+<task>
+	<pID>{{ node.pk }}</pID>
+	<pName>{{ node.name }}</pName>
+	<pColor>0000ff</pColor>
+	<pLink>{% url tasks:view_task node.pk %}</pLink>
+	<pMile>0</pMile>
+	<pRes></pRes>
+	<pComp>{{ node.completion }}</pComp>
+{% if node.is_leaf_node %}
+	<pGroup>0</pGroup>
+	<pStart>{{ node.start_date|date:"m/d/Y" }}</pStart>
+	<pEnd>{{ node.expire_date|date:"m/d/Y" }}</pEnd>
+{% else %}
+	<pGroup>1</pGroup>
+	<pStart></pStart>
+	<pEnd></pEnd>
+{% endif %}
+	<pParent>{{ node.parent.pk }}</pParent>
+	<pOpen>0</pOpen>
+	<pDepend></pDepend>
+</task>
+{% endfor %}
+
+</project>

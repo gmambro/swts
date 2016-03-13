@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block sidebar_menu %}
+<ul>
+<li><a href="{% url cid:list_incidents %}">List</a></li>
+<li><a href="{% url cid:new_incident %}">Report incident</a></li>
+<li><a href="">Stats</a></li>
+</ul>
+{% endblock %}
+
+{% block sidebar %}
+  {% with 'cid' as app %}
+  {{block.super}}
+  {% endwith %}
+{% endblock sidebar %}

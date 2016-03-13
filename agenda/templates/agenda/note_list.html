@@ -1,0 +1,35 @@
+{% extends "agenda/base.html" %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  {{ searchform.media }}
+{% endblock %}
+
+{% block content %}
+<div class="object-tools">
+  <a class="addlink" href="{% url agenda:new_note %}">Add</a>
+</div>
+<table class="listing">
+  <thead>
+   <tr>
+     <th>Name</th>
+     <th></th>
+   </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}   
+    <tr class="{% cycle odd,even %}">
+      <td>
+	{{ object.contents|striptags|truncatewords_html:10 }}
+      </td>
+      <td>
+	<ul class="object-tools">
+	<li><a class="changelink" href="{% url agenda:edit_note object.pk %}">Edit</a></li>
+	<li><a class="dellink" href="{% url agenda:delete_note object.pk %}">Delete</a></li>
+	</ul>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

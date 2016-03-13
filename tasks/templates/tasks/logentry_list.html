@@ -1,0 +1,32 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+<p>Back to <a href="{{ task.get_absolute_url }}">{{ task.name }}</a></p>
+
+<table class="listing">
+  <thead>
+   <tr>
+     <th>Date</th>
+     <th>User</th>
+     <th>Logbook</th>
+     <th>Description</th>
+   </tr>
+  </thead>
+  <tbody>
+    {% for entry in object_list %}   
+    <tr class="{% cycle odd,even %}">
+      <td>{{ entry.date }}</td>
+      <td>{{ entry.user }}</td>
+      <td>
+	<a href="{{ entry.logbook.get_absolute_url }}">{{ entry.logbook }}</a>
+      </td>
+      <td>
+	{{ entry.description }}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a class="addlink" href="{% url tasks:add_logentry task.id  %}">Add entry</a>
+
+{% endblock %}

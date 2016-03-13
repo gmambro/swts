@@ -1,0 +1,22 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+
+<ul>
+  {% for t in object_list %}   
+
+<li>{{ t.name }}
+<ul>
+{% for p in t.pointers.all %}
+<li>
+  <a href="{{ p.url }}">{{ p.url }}</a>
+  {% if p.description %}({{ p.description }}){% endif %}
+  <a class="changelink" href="{% url tasks:edit_pointer p.pk %}"></a>
+  <a class="dellink" href="{% url tasks:delete_pointer p.pk %}"></a>
+</li>
+{% endfor %}
+</ul>
+{% endfor %}
+</ul>
+
+{% endblock %}

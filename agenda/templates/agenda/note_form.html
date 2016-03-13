@@ -1,0 +1,22 @@
+{% extends "agenda/base.html" %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  {{ form.media }}
+  <script type="text/javascript" src="/site_media/tiny_mce/tiny_mce.js"></script>
+  <script type="text/javascript">
+    tinyMCE.init({
+    mode: "textareas",
+    theme: "simple"
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+<table>
+{{ form.as_table }}
+</table>
+<input type="submit" value="Submit" />
+</form>
+{% endblock %}

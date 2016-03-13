@@ -1,0 +1,39 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+
+<h2>Tasks overview</h2>
+<table>
+  <thead>
+    <tr><th>Status</th><th>Count</th></tr>
+  </thead>
+  <tbody>
+    {% for t in status_stats %}
+    <tr>
+      <td><a href="{% url tasks:list_task_status t.status %}">{{ t.status_display }}</a></td>
+      <td class="numeric">{{ t.count }}</td>      
+    </tr>
+    {% endfor %}
+    <tr>
+      <td><a href="{% url tasks:list_tasks %}">All</a></td>
+      <td class="numeric">{{ total_tasks }}</td>
+    </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr><th>Category</th><th>Subcategories</th><th>Tasks</th></tr>
+  </thead>
+  <tbody>
+    {% for s in category_stats %}
+    <tr>
+      <td>{{ s.name }}</td>
+      <td class="numeric">{{ s.children_count }}</td>      
+      <td class="numeric"><a href="{% url tasks:list_task_category s.id %}">{{ s.tasks_count }}</a></td>      
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock %}

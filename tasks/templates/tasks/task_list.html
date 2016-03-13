@@ -1,0 +1,46 @@
+{% extends "tasks/base.html" %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  {{ searchform.media }}
+{% endblock %}
+
+{% block content %}
+<p>{{ message }}</p>
+
+<form method="POST" action="{% url tasks:list_tasks %}" class="searchbox">
+  {{ searchform.name }}<input type="submit" value="Search" />     
+</form>
+<table class="listing">
+  <thead>
+   <tr>
+     <th>Name</th>
+     <th>Start date</th>
+     <th>Status</th>
+     <th></th>
+   </tr>
+  </thead>
+  <tbody>
+    {% for task in object_list %}   
+    <tr class="{% cycle odd,even %}">
+      <td>
+	<a href="{{ task.get_absolute_url }}">{{ task.name }}</a>
+      </td>
+      <td>
+	{{ task.start_date }}
+      </td>
+      <td>
+	{{ task.get_status_display }}
+      </td>
+      <td>
+	<ul class="object-tools">
+	<li><a class="changelink" href="{% url tasks:edit_task task.pk %}">Edit</a></li>
+	<li><a class="addlink" href="{% url tasks:add_history task.pk %}">Status</a></li>
+	<li><a class="addlink" href="{% url tasks:add_logentry task.pk %}">LogEntry</a></li>
+	</ul>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block sidebar_menu %}
+<ul>
+<li><a href="{% url tasks:overview %}">Overview</a></li>
+<li><a href="{% url tasks:list_projects %}">Projects</a></li>
+<li><a href="{% url tasks:list_tasks %}">Tasks</a></li>
+<li><a href="{% url tasks:list_logbooks %}">Logbooks</a></li>
+<li><a href="{% url tasks:list_pointers %}">Pointers</a></li>
+</ul>
+{% endblock sidebar_menu %}
+
+{% block sidebar %}
+  {% with 'tasks' as app %}
+  {{block.super}}
+  {% endwith %}
+{% endblock sidebar %}

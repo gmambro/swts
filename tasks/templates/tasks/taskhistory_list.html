@@ -1,0 +1,28 @@
+{% extends "tasks/base.html" %}
+
+{% block title %}
+Task <a href="{% url tasks:view_task task.pk %}">{{ task.name }}</a>
+{% endblock %}
+
+{% block content %}
+<table class="listing">
+<thead>
+  <tr>
+    <th>Date</th><th>User</th><th>Status</th>
+    <th>Description</th>
+  </tr>
+</thead>
+<tbody>
+{% for entry in object_list %}
+  <tr>
+    <td>{{ entry.date }}</td>
+    <td>{{ entry.user }}</td>
+    <td>{{ entry.get_status_display }}</td>
+    <td class="description">{{ entry.description }}</td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+<p><a class="addlink" href="{% url tasks:add_history task.pk %}">Change status</a></p>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block sectiontitle %}Knowledge Base{% endblock %} 
+
+{% block sidebar_kb %}
+<ul>
+<li><a href="{% url kb:list_categories %}">Index</a></li>
+<li><a href="{% url kb:list_categories %}">Search</a></li>
+</ul>
+{% endblock %}

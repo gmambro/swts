@@ -1,0 +1,72 @@
+{% extends "tasks/base.html" %}
+{% load mptt_tags %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}jsgantt/jsgantt.css" />
+<script language="javascript" src="{{ MEDIA_URL}}jsgantt/jsgantt.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="object-tools">
+<a class="changelink" href="{% url tasks:edit_project object.pk %}">Edit</a>
+<a class="addlink" href="{% url tasks:add_task project_id=object.pk %}">Add task</a>
+</div>
+<table class="infotable">
+<tbody>
+<tr>
+<th>Description</th>
+<td>{{ object.description }}</td>
+</tr>
+<tr>
+<th>Start date</th>
+<td>{{ object.start_date }}</td>
+</tr>
+<th>End date</th>
+<td>{{ object.expire_date }}</td>
+</tr>
+<th>Status</th>
+<td>{{ object.get_status_display }}</td>
+</tr>
+<tr>
+<th>Owner</th>
+<td>{{ object.owner }}</td>
+</tr>
+<tr>
+<th>People</th>
+<td>{% for u in object.workers.all %}{{ u }} {% endfor %}</td>
+</tr>
+<tr>
+<th>Tasks</th>
+<td>
+{% for node,structure in tasks|tree_info %}
+   {% if structure.new_level %}<ul>{% endif %}
+   <li><a href="{% url tasks:view_task node.pk %}">{{ node.name }}</a>
+   {% for level in structure.closed_levels %}</li></ul>{% endfor %}
+{% endfor %}
+</td>
+</tr>
+</tbody>
+</table>
+
+<div style="position:relative" class="gantt" id="GanttChartDIV"></div>
+<script language="javascript">
+var g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'day');
+
+g.setShowRes(1); // Show/Hide Responsible (0/1)
+g.setShowDur(1); // Show/Hide Duration (0/1)
+g.setShowComp(1); // Show/Hide % Complete(0/1)
+g.setCaptionType('Caption');  // Set to Show Caption (None,Caption,Resource,Duration,Complete)
+g.setShowStartDate(1); // Show/Hide Start Date(0/1)
+g.setShowEndDate(1);   // Show/Hide End Date(0/1)
+g.setDateInputFormat('mm/dd/yyyy');
+g.setDateDisplayFormat('dd/mm/yyyy');
+g.setFormatArr("day","week","month","quarter");
+
+JSGantt.parseXML("jsgantt.xml",g);
+
+g.Draw();	
+g.DrawDependencies();
+
+</script>
+{% endblock %}
+

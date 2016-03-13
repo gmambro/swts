@@ -1,0 +1,33 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+
+<h2>Next tasks</h2>
+<form method="POST" action="{% url tasks:list_tasks %}" class="searchbox">
+  {{ task_searchform.name }}<input type="submit" value="Search" />     
+</form>
+<table class="listing">
+  <thead>
+   <tr>
+     <th>Name</th>
+     <th>Expire date</th>
+     <th>Status</th>
+   </tr>
+  </thead>
+  <tbody>
+    {% for task in task_list %}   
+    <tr class="{% cycle odd,even %}">
+      <td>
+	<a href="{{ task.get_absolute_url }}">{{ task.name }}</a>
+      </td>
+      <td>
+	{{ task.expire_date }}
+      </td>
+      <td>
+	{{ task.get_status_display }}
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

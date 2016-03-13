@@ -1,0 +1,10 @@
+{% extends "agenda/base.html" %}
+
+{% block content %}
+<div class="object-tools">
+<a class="changelink" href="{% url agenda:edit_note object.pk %}">Edit</a>
+</div>
+
+{{ object.contents|safe }}
+
+{% endblock %}

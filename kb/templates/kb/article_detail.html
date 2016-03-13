@@ -1,0 +1,24 @@
+{% extends "kb/base.html" %}
+
+{% block content_title %}KB: {{object.title}}{% endblock %}
+
+{% block content %}
+<table>
+<tr><th>Category:</th><td><a href="{{ object.category.get_absolute_url }}">{{ object.category }}</a></td>
+<tr><th>Keywords:</th><td>{{ object.keywords }}</td></tr>
+<tr><th>Author:</th><td>{{ object.author }}</td></tr>
+<tr><th>Last modified:</th><td>{{ object.lastupdate }}</td></tr>
+</table>
+
+<div style="border: 1pt">
+{{ object.contents }}
+</div>
+
+<ul class="object-tools">
+    <li><a class="changelink" href="{% url kb:edit_article object.pk %}">Edit
+	article</a></li>
+    <li><a class="dellink" href="{% url kb:delete_article object.pk %}">Delete
+    article</a></li>
+</ul>
+
+{% endblock %}

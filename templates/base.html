@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <link rel="stylesheet" href="{{BASE_URL}}site_media/css/style.css" />    
+    <title>{% block headtitle %}Simple Web Task Scheduler{% endblock %} {% if title %} - {{ title }}{% endif %}</title>
+{% block extrastyle %}{% endblock %}
+</head>
+
+<body>
+
+<div id="container">
+  <div id="header">
+    <h1>Simple Web Task Scheduler</h1>		
+    {% if user.is_authenticated %}
+    <div id="user-tools">
+    Welcome <strong>{% firstof user.first_name user.username %}</strong>.
+    {% block userlinks %}
+    <a href="{{ BASE_URL }}password_change/">Change password</a> /
+    <a href="{{ BASE_URL }}logout/">Log out</a>
+    {% endblock %}
+    {% endif %}
+    </div>
+  </div>
+  <div id="columnwrap">
+    {% block sidebar %}
+    <div id="sidebar">
+      <ul>	
+	{% for t in SWTS_APPS %}
+	<li><a href="{{ t.1 }}">{{ t.0|capfirst}}</a></li>
+	{% if t.0 == app %}
+	      {% block sidebar_menu %}{% endblock %}
+	{% endif %}
+	{% endfor %}
+      </ul>
+    </div>
+    {% endblock sidebar %}
+    <div id="content-main">
+      <h1>{%  block title %}{{ title }}{% endblock %}</h1>    
+      {% block content %}{% endblock %}    
+    </div>
+    <div id="footer">
+    </div>
+  </div>
+  
+</body>
+</html>

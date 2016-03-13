@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block sidebar_menu %}
+<ul>
+<li><a href="{% url agenda:list_notes %}">Notes</a></li>
+<li><a href="{% url agenda:list_todo %}">Todo</a></li>
+</ul>
+{% endblock sidebar_menu %}
+
+
+{% block sidebar %}
+  {% with 'agenda' as app %}
+  {{block.super}}
+  {% endwith %}
+{% endblock sidebar %}

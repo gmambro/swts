@@ -1,0 +1,17 @@
+{% extends "agenda/base.html" %}
+
+{% block content %}
+<div class="object-tools">
+<a class="changelink" href="{% url agenda:edit_todo object.pk %}">Edit</a>
+</div>
+
+<table class="infotable">
+<tr><th>Title:</th><td>{{object.title}}</td></tr>
+<tr><th>Expires:</th><td>{{object.expires}}</td></tr>
+<tr><th>Shared with:</th><td>{{object.shared_with}}</td></tr>
+</table>
+
+<div style="border: 1px solid black; width: 90%; padding: 5px; margin: 10px 5px 0 0">
+{{ object.contents|safe }}
+</div>
+{% endblock %}
