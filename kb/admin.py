@@ -1,4 +1,4 @@
-from swts.kb import models
+from . import models
 from django.contrib import admin
 
 admin.site.register(models.Category)

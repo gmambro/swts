@@ -1,8 +1,9 @@
-from django.conf.urls.defaults import patterns, url, include
+from django.conf.urls import patterns, url, include
 from django.conf import settings
-from django.views.generic.simple import redirect_to
 
-from swts.common import lazy_reverse
+from django.views.generic import RedirectView
+
+from common import lazy_reverse
 
 # enable the admin:
 from django.contrib import admin
@@ -11,28 +12,17 @@ admin.autodiscover()
 urlpatterns = patterns('',          
                        # admin                       
                        (r'^admin/', include(admin.site.urls)),
-
-                       # auth
-                       url(r'^login/$',  
-                           'django.contrib.auth.views.login'),
-                       url(r'^logout/$', 
-                           'django.contrib.auth.views.logout_then_login',
-                           name='auth_logout'),
-
-                       ( r'^$', 
-                         redirect_to, { 'url' : lazy_reverse('tasks:index')}
+                       # redirect home
+                       ( r'^$',
+                         RedirectView.as_view(url=lazy_reverse('tasks:index'))
                          ),
-                       )
-
-
-import swts.common.registry
-swts.common.registry.autodiscover()
-app_patterns = swts.common.registry.patterns()
-urlpatterns += patterns('',  *app_patterns)
-
-if settings.DEBUG:
-    urlpatterns += patterns('',
-                            ( r'^site_media/(?P<path>.*)$', 
-                              'django.views.static.serve', 
-                              { 'document_root': settings.MEDIA_ROOT }),
-                            )
+                       url(r'^tasks/', include('tasks.urls', namespace='tasks')),
+                       url(r'^cid/', include('cid.urls', namespace='cid')),
+                       url(r'^kb/', include('kb.urls', namespace='kb')),                       
+                       # auth
+                       url(r'^accounts/login/$',  'django.contrib.auth.views.login', 
+	                       { 'authentication_form' : LoginForm },
+                           name='login' ),
+                       url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login', 
+                           name='logout'),
+)

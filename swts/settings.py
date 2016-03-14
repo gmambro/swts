@@ -1,12 +1,11 @@
 # Django settings for swts project.
-import os.path
+
+# idiom to get path of project
+import os
+PROJECT_PATH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 
 # with trailing /
 BASE_URL = '/'
-
-
-BASE_DIR = os.path.join(os.path.curdir,
-                        os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -18,7 +17,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME   = os.path.join(BASE_DIR, 'swts.db')
+DATABASE_NAME   = os.path.join(PROJECT_PATH, 'swts.db')
 DATABASE_USER   = ''
 DATABASE_PASSWORD = '' 
 DATABASE_HOST = '' # localhost
@@ -36,7 +35,7 @@ USE_I18N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'site_media')
+MEDIA_ROOT = os.path.join(PROJECT_PATH, 'site_media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -58,27 +57,36 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.load_template_source',
 )
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # insert your TEMPLATE_DIRS here
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.csrf.CsrfResponseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-	"django.core.context_processors.auth",
-	"django.core.context_processors.debug",
-	"django.core.context_processors.i18n",
-	"django.core.context_processors.media",
-	"swts.context_processors.url_info",
-        "swts.context_processors.registry"
-        )
-
-
-
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
 )
 
 ROOT_URLCONF = 'swts.urls'
@@ -88,16 +96,18 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+
     'mptt',
-    'swts.agenda',
-    'swts.tasks',
-    'swts.kb',
-    'swts.cid',
+
+    'agenda',
+    'tasks',
+    'kb',
+    'cid',
 )
 
-LOGIN_REDIRECT_URL = BASE_URL
-LOGIN_URL = BASE_URL + 'login/'
-LOGOUT_URL = BASE_URL + 'logout/'
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL='login'
+LOGOUT_URL='home'
 
 
 #-----------------------------------------#
@@ -109,13 +119,13 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-AUTH_AD_DOMAIN      = 'policlinico.org'
-AUTH_AD_SERVER      = 'mercurio.policlinico.org'
+AUTH_AD_DOMAIN      = 'contoso.org'
+AUTH_AD_SERVER      = 'contoso.org'
 AUTH_AD_PORT        = 389
 AUTH_AD_USETLS      = True
-AUTH_AD_CACERTFILE  = '/etc/ssl/certs/plc-ca.pem'
-AUTH_AD_SEARCHDN    = 'dc=policlinico,dc=org'
-AUTH_AD_FILTER      = 'memberOf=CN=Sistemisti,OU=utenti di servizio,OU=CED,DC=policlinico,DC=org'
+AUTH_AD_CACERTFILE  = '/etc/ssl/certs/ca.pem'
+AUTH_AD_SEARCHDN    = 'dc=contoso,dc=org'
+AUTH_AD_FILTER      = 'memberOf=CN=MyUSers,DC=Contoso,DC=Org'
 AUTH_AD_CREATEUSER  = True  # False
 
 
