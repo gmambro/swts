@@ -1,2 +1,1 @@
-Django >= 1.9
-django-mptt >= 0.8
+-r requirements/development.txt
